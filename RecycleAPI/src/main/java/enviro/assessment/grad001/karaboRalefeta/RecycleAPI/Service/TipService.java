@@ -1,10 +1,12 @@
 package enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Service;
 
+import enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Model.TipModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TipService {
-    public List<String> getAll(){
+    public List<TipModel> getAll(){
         return new ArrayList<>();
     }
     public String getByID(long id){
