@@ -9,7 +9,7 @@ import java.util.List;
 public class CategoryController {
     @GetMapping("/{material}")
     public List<String> material(@PathVariable String material){
-        // return example of things that fall under that material
+        // return example of items that fall under that material
         return null;
     }
     @GetMapping("/categories")
@@ -22,5 +22,19 @@ public class CategoryController {
     public void addingNewObject(){
         // both the material and the object should be provided
         // check for whether the material exist first
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteCategories(@PathVariable("id") long id){
+        // do send a code to show it's successful
+    }
+    @DeleteMapping("/delete/{material}/{id}")
+    public void deleteMaterial(@PathVariable("material") String materialId, @PathVariable("id") long id){
+        // do send a code to show it's successful
+    }
+
+    @PutMapping("/edit/{id}")
+    public void editCategories(@PathVariable("id") long id){
+        // edit a specif Categories, do get the id first
     }
 }

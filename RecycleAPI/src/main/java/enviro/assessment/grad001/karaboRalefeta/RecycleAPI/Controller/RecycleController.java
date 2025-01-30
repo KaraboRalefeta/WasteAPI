@@ -18,9 +18,19 @@ public class RecycleController {
     }
 
     @PostMapping("/add")
-    public void AddRecyclingInfo(){
+    public long addRecyclingInfo(){
         // not sure if i should request all the info or what
         // request all info for now
+        return -1;
     }
+    @DeleteMapping("/delete/{id}")
+    public void deleteRecyclingInfo(@PathVariable("id") long id){
+        //delete info
+    }
+    @PutMapping("edit/{id}")
+    public void editRecyclingInfo(@PathVariable("id") long id){
+        //edit specif recycling info
+    }
+
 
 }

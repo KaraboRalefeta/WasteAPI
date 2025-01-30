@@ -1,5 +1,6 @@
 package enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Controller;
 
+import enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Model.TipModel;
 import enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Service.TipService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,15 +19,27 @@ public class TipController {
         return tips.getRandom();
     }
     @GetMapping("/all")
-    public List<String> getAll(){
+    public List<TipModel> getAll(){
         // return all tips
         return tips.getAll();
     }
 
     @PostMapping("/add")
-    public void addingNewTip(){
+    public int addingNewTip(){
         // both the material and the object should be provided
         // check for whether the material exist first
+        return -1;
     }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteTip(@PathVariable("id") long id){
+        // do send a code to show it's successful
+    }
+
+    @PutMapping("/edit/{id}")
+    public void editTip(@PathVariable("id") long id){
+        // edit a specif tip, do get the id first
+    }
+
 
 }
