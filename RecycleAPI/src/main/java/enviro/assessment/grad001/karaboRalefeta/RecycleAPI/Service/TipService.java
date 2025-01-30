@@ -3,7 +3,7 @@ package enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoadTip {
+public class TipService {
     public List<String> getAll(){
         return new ArrayList<>();
     }
@@ -13,6 +13,12 @@ public class LoadTip {
 
     public String getRandom(){
         return "random";
+    }
+    public void updateTip(long id, String newDetails){
+
+    }
+    public void deleteTip(long id){
+
     }
 
     public void newTip(String tip){

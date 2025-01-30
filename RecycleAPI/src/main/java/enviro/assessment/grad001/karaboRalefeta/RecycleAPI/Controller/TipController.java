@@ -1,6 +1,6 @@
 package enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Controller;
 
-import enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Service.LoadTip;
+import enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Service.TipService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/tip")
 public class TipController {
-    LoadTip tips = new LoadTip();
+    TipService tips = new TipService();
     @GetMapping
     public String getTip(@RequestParam(required = false) Long id){
         // return specific tip or a random tip
