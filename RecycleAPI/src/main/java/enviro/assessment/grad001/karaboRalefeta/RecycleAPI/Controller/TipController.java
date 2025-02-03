@@ -1,7 +1,12 @@
 package enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Model.TipModel;
+import enviro.assessment.grad001.karaboRalefeta.RecycleAPI.ResponseHandler.ApiResponse;
 import enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Service.TipService;
+import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,35 +16,37 @@ import java.util.List;
 public class TipController {
     TipService tips = new TipService();
     @GetMapping
-    public String getTip(@RequestParam(required = false) Long id){
-        // return specific tip or a random tip
+    public ResponseEntity<ApiResponse<Object>> getTip(@RequestParam(required = false) Long id){
+        TipModel tip;
         if (id != null){
-            return tips.getByID(id);
+            tip = tips.getRandom();
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.FOUND.value(), tip));
         }
-        return tips.getRandom();
+        tip = tips.getRandom();
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.FOUND.value(), tip));
     }
     @GetMapping("/all")
-    public List<TipModel> getAll(){
-        // return all tips
-        return tips.getAll();
+    public ResponseEntity<ApiResponse<Object>> getAll(){
+        List<TipModel> all = tips.getAll();
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.FOUND.value(), all));
+
     }
 
     @PostMapping("/add")
-    public int addingNewTip(){
-        // both the material and the object should be provided
-        // check for whether the material exist first
-        return -1;
+    public ResponseEntity<ApiResponse<Object>> addingNewTip(@RequestBody JsonNode body){
+        TipModel t = tips.addTip(new JSONObject(body.toString()));
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.FORBIDDEN.value(), t));
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteTip(@PathVariable("id") long id){
-        // do send a code to show it's successful
+    public ResponseEntity<ApiResponse<Object>> deleteTip(@PathVariable("id") long id){
+        tips.deleteTip(id);
+        return ResponseEntity.accepted().body(new ApiResponse<>(HttpStatus.ACCEPTED.value(), "Item with ID has been deleted" ));
     }
 
     @PutMapping("/edit/{id}")
-    public void editTip(@PathVariable("id") long id){
-        // edit a specif tip, do get the id first
+    public ResponseEntity<ApiResponse<Object>> editTip(@PathVariable("id") long id, @RequestBody JsonNode body){
+        TipModel tm = tips.editTip(id, new JSONObject(body.toString()));
+        return ResponseEntity.ok().body(new ApiResponse<>(200, tm));
     }
-
-
 }

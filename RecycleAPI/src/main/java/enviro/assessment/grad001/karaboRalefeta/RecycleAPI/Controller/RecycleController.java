@@ -1,35 +1,47 @@
 package enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import enviro.assessment.grad001.karaboRalefeta.RecycleAPI.ResponseHandler.ApiResponse;
+import enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Service.ItemService;
+import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/recycle")
 public class RecycleController {
+    ItemService is = new ItemService();
+    @GetMapping("/item")
+    public ResponseEntity<ApiResponse<Object>> recyclingInfo(@RequestParam(required = false) Long id, @RequestParam(required = false) String name){
+        if (id == null && (name == null || name.isEmpty())){
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),  is.getRandom()));
+        }
+        if (name != null && !name.isEmpty()){
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),  is.getByName(name)));
+        }
 
-    @GetMapping("/{item}")
-    public String recyclingInfo(@PathVariable String item){
-        // should return true/false if the item can be recycled
-        // and how to recycle it if it can be recycled
-        // or what can be done about it if it can't be recycled
-
-        // im considering having alternative for what can be done for the
-        // recyclable things to be included
-        return null;
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),  is.getByID(id)));
+    }
+    @GetMapping("/item/all")
+    public ResponseEntity<ApiResponse<Object>> getAllItems(){
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),  is.getAll()));
     }
 
     @PostMapping("/add")
-    public long addRecyclingInfo(){
-        // not sure if i should request all the info or what
-        // request all info for now
-        return -1;
+    public ResponseEntity<ApiResponse<Object>> addRecyclingInfo(@RequestBody JsonNode body){
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),  is.newItem(new JSONObject(body.toString()))));
     }
     @DeleteMapping("/delete/{id}")
-    public void deleteRecyclingInfo(@PathVariable("id") long id){
-        //delete info
+    public ResponseEntity<ApiResponse<Object>> deleteRecyclingInfo(@PathVariable("id") long id){
+        is.deleteItem(id);
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.ACCEPTED.value(),  "Item successfully deleted"));
     }
     @PutMapping("edit/{id}")
-    public void editRecyclingInfo(@PathVariable("id") long id){
-        //edit specif recycling info
+    public ResponseEntity<ApiResponse<Object>> editRecyclingInfo(@PathVariable("id") long id, @RequestBody JsonNode body){
+        return ResponseEntity.ok( new ApiResponse<>(HttpStatus.OK.value(), is.editItem(id, new JSONObject(body.toString()))));
     }
 
 

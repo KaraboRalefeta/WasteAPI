@@ -1,40 +1,43 @@
 package enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import enviro.assessment.grad001.karaboRalefeta.RecycleAPI.ResponseHandler.ApiResponse;
+import enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Service.CategoryService;
+import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
-    @GetMapping("/{material}")
-    public List<String> material(@PathVariable String material){
-        // return example of items that fall under that material
-        return null;
+    CategoryService cs = new CategoryService();
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<Object>> getCategories(){
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), cs.getAll()));
     }
-    @GetMapping("/categories")
-    public List<String> getCategories(){
-        // returns a list of all the categories in the system
-        return null;
+    @GetMapping("/{category}")
+    public ResponseEntity<ApiResponse<Object>> getItemsUnderCategory(@PathVariable String category){
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), cs.getAllItems(category)));
     }
 
+
     @PostMapping("/add")
-    public void addingNewObject(){
-        // both the material and the object should be provided
-        // check for whether the material exist first
+    public ResponseEntity<ApiResponse<Object>> addNewCateg(@RequestBody JsonNode body){
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), cs.newCategory(new JSONObject(body))));
+
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteCategories(@PathVariable("id") long id){
-        // do send a code to show it's successful
-    }
-    @DeleteMapping("/delete/{material}/{id}")
-    public void deleteMaterial(@PathVariable("material") String materialId, @PathVariable("id") long id){
-        // do send a code to show it's successful
+    public ResponseEntity<ApiResponse<Object>> deleteCategories(@PathVariable("id") long id){
+        cs.deleteCategory(id);
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.ACCEPTED.value(), "Category has been successfully deleted"));
+
     }
 
     @PutMapping("/edit/{id}")
-    public void editCategories(@PathVariable("id") long id){
-        // edit a specif Categories, do get the id first
+    public ResponseEntity<ApiResponse<Object>> editCategories(@PathVariable("id") long id, @RequestBody JsonNode body){
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.ACCEPTED.value(), cs.editCategory(id, new JSONObject(body.toString()))));
     }
 }

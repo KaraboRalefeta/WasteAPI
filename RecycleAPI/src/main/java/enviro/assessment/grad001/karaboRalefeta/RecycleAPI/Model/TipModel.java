@@ -3,17 +3,10 @@ package enviro.assessment.grad001.karaboRalefeta.RecycleAPI.Model;
 public class TipModel {
     long id;
     String tip;
-    String tipCateg;
 
     public TipModel(long id, String tip) {
-        id = id;
-        tip = tip;
-    }
-
-    public TipModel(long id, String tip, String tipCateg) {
-        id = id;
-        tip = tip;
-        tipCateg = tipCateg;
+        this.id = id;
+        this.tip = tip;
     }
 
     public long getId() {
@@ -24,7 +17,4 @@ public class TipModel {
         return tip;
     }
 
-    public String getTipCateg(){
-        return tipCateg;
-    }
 }
