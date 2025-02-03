@@ -94,10 +94,4 @@ public class CategoryRepository extends AbstractRepo{
         } catch (SQLException e) {
             throw new CustomException("Category database seems to have an issue", 500);        }
     }
-
-    public static void main(String[] args) {
-        CategoryRepository cr = new CategoryRepository();
-        CategoryModel byID = cr.getByID(100);
-        System.out.println(byID);
-    }
 }

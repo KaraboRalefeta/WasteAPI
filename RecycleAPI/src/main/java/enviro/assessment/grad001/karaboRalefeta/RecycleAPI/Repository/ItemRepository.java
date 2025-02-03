@@ -105,9 +105,6 @@ public class ItemRepository extends AbstractRepo{
         throw new CustomException("Found no item with such an ID", 404);
     }
     public ItemModel addItem(JSONObject body){
-        // service should split the info for this part to work efficiently
-        // make sure that the Item is added and return the id of the Item or -1 if it wasn't added
-
         try{
             PreparedStatement ps = con.prepareStatement("SELECT * FROM ItemDB WHERE name=? and categ_Id=?");
             ps.setString(1,body.getString("name"));
@@ -181,31 +178,4 @@ public class ItemRepository extends AbstractRepo{
             throw new CustomException("Item database seems to have an issue, this may be due to bad request or internal error");
         }
     }
-
-    public static void main(String[] args) {
-        ItemRepository ir = new ItemRepository();
-        JSONObject js = new JSONObject();
-
-        js.put("name", "bottle");
-        js.put("categ_id", 1);
-        js.put("impact", "Plastic bottles take up significant space in landfills, which are already overflowing. As they decompose, they release harmful chemicals into the soil and groundwater, contaminating these vital resources.");
-        js.put("recycling_instr", "Empty it: Make sure the bottle is completely empty. Any remaining liquids can contaminate other recyclables.\n" +
-                "Rinse it: Give the bottle a quick rinse to remove any residue. This helps prevent odors and keeps the recycling process clean.\n" +
-                "Replace the cap: It's now generally recommended to leave the cap on the bottle. This ensures that both the bottle and the cap get recycled together, as they are often made from different types of plastic.\n" +
-                "Don't crush it: While it might seem like a good idea to crush the bottle to save space, this can actually hinder the recycling process. It's best to leave the bottle in its original shape.");
-        js.put("recyclable", true);
-        js.put("reuse_instr", "Watering Plants: Plastic bottles make excellent watering cans for indoor or outdoor plants. You can even poke small holes in the cap for a gentle sprinkle.\n" +
-                "Storing Non-Food Items: Use them to store craft supplies, small toys, hardware, or other non-food items. They're great for organizing drawers or shelves.\n" +
-                "Cleaning Supplies: Dilute cleaning solutions and store them in labeled plastic bottles. This is especially handy for smaller spray bottles.\n" +
-                "Pet Water Bowls: Larger bottles can be cut down and used as temporary water or food bowls for pets. \n" +
-                "Seed Starting: Cut the bottom off and use the bottle as a mini-greenhouse to start seeds.\n" +
-                "Travel Containers: For non-food items like shampoo or soap (especially travel sizes), plastic bottles can be handy, but always clearly label them.");
-//        ir.addItem(js);
-//        JSONObject json = new JSONObject();
-//        json.put("recyclable", "true");
-//        ir.editItem(1, json);
-
-
-    }
-
 }
